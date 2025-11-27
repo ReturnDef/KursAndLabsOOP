@@ -2,7 +2,12 @@
 #include <cstdio>
 
 Heater::Heater(int id, const std::string &name, const std::string &location)
-    : Device(id, name, location), temperature(20), mode("off") {}
+    : Device(id, name, location), temperature(20), mode(0) {
+    std::printf("Heater '%s' инициализирован (id=%d)\n", getName().c_str(), getId());
+}
+
+Heater::Heater(const Heater& other)
+    : Device(other), temperature(other.temperature), mode(other.mode) {}
 
 Heater::~Heater() {}
 
@@ -11,9 +16,9 @@ void Heater::setTemperature(int t) {
     std::printf("Heater::setTemperature вызван для '%s', t=%d\n", getName().c_str(), temperature);
 }
 
-void Heater::setMode(const std::string &m) {
+void Heater::setMode(int m) {
     mode = m;
-    std::printf("Heater::setMode вызван для '%s', mode=%s\n", getName().c_str(), mode.c_str());
+    std::printf("Heater::setMode вызван для '%s', mode=%d\n", getName().c_str(), mode);
 }
 
 void Heater::scheduleTemperatureChange(std::time_t when, int temp) {
@@ -21,5 +26,5 @@ void Heater::scheduleTemperatureChange(std::time_t when, int temp) {
 }
 
 void Heater::showStatus() {
-    std::printf("Heater '%s' статус: %s, temp=%d\n", getName().c_str(), state ? "ВКЛ" : "ВЫКЛ", temperature);
+    std::printf("Heater '%s' статус: %s, temp=%d, mode=%d\n", getName().c_str(), state ? "ВКЛ" : "ВЫКЛ", temperature, mode);
 }

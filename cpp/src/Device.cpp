@@ -4,6 +4,9 @@
 Device::Device(int id, const std::string &name, const std::string &location)
     : id(id), name(name), location(location), isOnline(true), powerUsage(0.0), state(false) {}
 
+Device::Device(const Device& other)
+    : id(other.id), name(other.name), location(other.location), isOnline(other.isOnline), powerUsage(other.powerUsage), state(other.state) {}
+
 Device::~Device() {}
 
 void Device::turnOn() {
@@ -20,7 +23,7 @@ void Device::showStatus() {
     std::printf("Статус устройства '%s': %s, местоположение: %s\n", name.c_str(), state ? "ВКЛ" : "ВЫКЛ", location.c_str());
 }
 
-void Device::performAction(Action*) {
+void Device::performAction(std::shared_ptr<Action>) {
     std::printf("Устройство '%s' выполняет базовое действие\n", name.c_str());
 }
 

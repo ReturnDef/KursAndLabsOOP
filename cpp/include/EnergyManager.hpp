@@ -5,9 +5,9 @@
 class EnergyManager {
 public:
     EnergyManager();
-    void addMeter(EnergyMeter* m);
+    void addMeter(std::shared_ptr<EnergyMeter> m);
     double getEnergyReport() const;
 
 private:
-    std::vector<EnergyMeter*> meters;
+    std::vector<std::shared_ptr<EnergyMeter>> meters;
 };

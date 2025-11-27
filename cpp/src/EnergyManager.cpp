@@ -3,7 +3,7 @@
 
 EnergyManager::EnergyManager() {}
 
-void EnergyManager::addMeter(EnergyMeter* m) {
+void EnergyManager::addMeter(std::shared_ptr<EnergyMeter> m) {
     if (m) {
         meters.push_back(m);
         std::printf("Добавлен счетчик: %s\n", m->getName().c_str());

@@ -4,6 +4,9 @@
 WindowBlind::WindowBlind(int id, const std::string &name, const std::string &location)
     : Device(id, name, location), position(0) {}
 
+WindowBlind::WindowBlind(const WindowBlind& other)
+    : Device(other), position(other.position) {}
+
 WindowBlind::~WindowBlind() {}
 
 void WindowBlind::open() {

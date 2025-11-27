@@ -4,10 +4,10 @@
 
 class Scheduler {
 public:
-    void addTask(Action* a);
-    void removeTask(Action* a);
+    void addTask(std::shared_ptr<Action> a);
+    void removeTask(std::shared_ptr<Action> a);
     void runPending();
 
 private:
-    std::vector<Action*> tasks;
+    std::vector<std::shared_ptr<Action>> tasks;
 };

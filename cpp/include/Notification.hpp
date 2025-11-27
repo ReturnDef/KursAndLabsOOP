@@ -4,7 +4,8 @@
 class Notification {
 public:
     Notification(const std::string &msg = "");
-    void sendToDevice(const std::string &deviceId);
+    Notification(const Notification& other);
+    void sendToDevice(int deviceId);
     void sendToAllUsers();
     void show() const;
 
