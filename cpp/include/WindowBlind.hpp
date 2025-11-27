@@ -4,6 +4,7 @@
 class WindowBlind : public Device {
 public:
     WindowBlind(int id = 0, const std::string &name = "WindowBlind", const std::string &location = "");
+    WindowBlind(const WindowBlind& other);
     ~WindowBlind();
     void open();
     void close();

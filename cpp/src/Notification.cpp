@@ -2,9 +2,10 @@
 #include <cstdio>
 
 Notification::Notification(const std::string &msg): message(msg), timestamp(std::time(nullptr)) {}
+Notification::Notification(const Notification& other): message(other.message), timestamp(other.timestamp) {}
 
-void Notification::sendToDevice(const std::string &deviceId) {
-    std::printf("Уведомление для устройства %s: %s\n", deviceId.c_str(), message.c_str());
+void Notification::sendToDevice(int deviceId) {
+    std::printf("Уведомление для устройства %d: %s\n", deviceId, message.c_str());
 }
 
 void Notification::sendToAllUsers() {

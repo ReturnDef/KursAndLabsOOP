@@ -4,6 +4,9 @@
 Sprinkler::Sprinkler(int id, const std::string &name, const std::string &location)
     : Device(id, name, location), flowRate(0.0) {}
 
+Sprinkler::Sprinkler(const Sprinkler& other)
+    : Device(other), flowRate(other.flowRate) {}
+
 Sprinkler::~Sprinkler() {}
 
 void Sprinkler::turnOnSprinkler() {

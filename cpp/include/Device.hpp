@@ -6,12 +6,13 @@ class Action;
 class Device {
 public:
     Device(int id = 0, const std::string &name = "", const std::string &location = "");
+    Device(const Device& other);
     virtual ~Device();
 
     virtual void turnOn();
     virtual void turnOff();
     virtual void showStatus();
-    virtual void performAction(Action* action);
+    virtual void performAction(std::shared_ptr<Action> action);
     virtual double getEnergyUsage() const;
     virtual void updateFirmware();
 
