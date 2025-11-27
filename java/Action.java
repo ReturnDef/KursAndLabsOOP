@@ -17,22 +17,34 @@ public class Action implements Serializable {
     }
 
     public void execute(SmartHomeSystem system) {
-        Device d = system.findDeviceById(deviceId);
+        try {
+            Device d = system.findDeviceById(deviceId);
+            if (d == null) {
+                String msg = "Устройство не найдено: " + deviceId;
+                System.out.println(msg);
+                system.logError(msg);
+                return;
+            }
 
-        if (d == null) {
-            System.out.println("Устройство не найдено: " + deviceId);
-            return;
-        }
+            if (argument == null || argument.isEmpty()) {
+                d.perform(command);
+            } else {
+                d.perform(command + " " + argument);
+            }
 
-        if (argument == null || argument.isEmpty()) {
-            d.perform(command);
-        } else {
-            d.perform(command + " " + argument);
+        } catch (Exception e) {
+            String msg = "Ошибка выполнения Action для device=" + deviceId + ": " + e.getMessage();
+            System.out.println(msg);
+            system.logError(msg);
         }
     }
 
     @Override
     public String toString() {
-        return "Action{" + "deviceId='" + deviceId + '\'' + ", cmd='" + command + '\'' + ", arg='" + argument + '\'' + '}';
+        return "Action{" +
+                "deviceId='" + deviceId + '\'' +
+                ", cmd='" + command + '\'' +
+                ", arg='" + argument + '\'' +
+                '}';
     }
 }

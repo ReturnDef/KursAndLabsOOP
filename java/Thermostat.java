@@ -22,19 +22,25 @@ public class Thermostat extends AbstractDevice {
     }
 
     public void perform(String command) {
-        String c = command.toLowerCase();
-        if (c.startsWith("вкл") || c.startsWith("turnon")) {
-            turnOn();
-        } else if (c.startsWith("выкл") || c.startsWith("turnoff")) {
-            turnOff();
-        } else if (c.startsWith("темп") || c.startsWith("temp")) {
-            try {
-                setTargetTemp(Double.parseDouble(command.replaceAll("[^0-9.,-]", "")));
-            } catch (Exception e) {
-                System.out.println(name + ": неверная температура");
+        try {
+            String c = command.toLowerCase();
+            if (c.startsWith("вкл") || c.startsWith("turnon")) {
+                turnOn();
+            } else if (c.startsWith("выкл") || c.startsWith("turnoff")) {
+                turnOff();
+            } else if (c.startsWith("темп") || c.startsWith("temp")) {
+                try {
+                    String num = command.replaceAll("[^0-9.,-]", "").trim();
+                    if (num.isEmpty()) throw new NumberFormatException("no number");
+                    setTargetTemp(Double.parseDouble(num));
+                } catch (NumberFormatException e) {
+                    System.out.println(name + ": неверная температура");
+                }
+            } else {
+                System.out.println(name + ": неизвестная команда для термостата");
             }
-        } else {
-            System.out.println(name + ": неизвестная команда для термостата");
+        } catch (Exception e) {
+            System.out.println(name + ": ошибка выполнения команды термостата: " + e.getMessage());
         }
     }
 

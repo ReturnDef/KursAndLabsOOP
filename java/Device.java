@@ -1,4 +1,3 @@
-
 package smarthome;
 public interface Device {
     String getId();
@@ -10,4 +9,7 @@ public interface Device {
     void turnOff();
     boolean isOn();
     void perform(String command);
+
+    int getPowerUsage();
+
 }
