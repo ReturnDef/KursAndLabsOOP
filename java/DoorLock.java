@@ -21,14 +21,19 @@ public class DoorLock extends AbstractDevice {
 
     @Override
     public void perform(String command) {
-        String c = command.toLowerCase();
+        try {
+            String c = command.toLowerCase();
 
-        if (c.contains("lock") || c.contains("заблок")) {
-            lock();
-        } else if (c.contains("unlock") || c.contains("разблок")) {
-            unlock();
-        } else {
-            System.out.println(name + ": неизвестная команда для замка");
+            if (c.contains("lock") || c.contains("заблок")) {
+                lock();
+            } else if (c.contains("unlock") || c.contains("разблок")) {
+                unlock();
+            } else {
+                System.out.println(name + ": неизвестная команда для замка");
+            }
+
+        } catch (Exception e) {
+            System.out.println(name + ": ошибка команды замка: " + e.getMessage());
         }
     }
 

@@ -2,6 +2,7 @@ package smarthome;
 
 import java.time.*;
 import java.util.*;
+import java.util.Iterator;
 
 public class Scheduler {
 
@@ -19,10 +20,15 @@ public class Scheduler {
     public void runPendingActions(SmartHomeSystem system) {
         LocalDateTime now = LocalDateTime.now();
         Iterator<ScheduledItem> it = tasks.iterator();
+
         while (it.hasNext()) {
             ScheduledItem si = it.next();
             if (!si.when.isAfter(now)) {
-                si.scenario.execute(system);
+                try {
+                    si.scenario.execute(system);
+                } catch (Exception e) {
+                    system.logError("Scheduler.runPendingActions failed: " + e.toString());
+                }
                 it.remove();
             }
         }
@@ -31,7 +37,11 @@ public class Scheduler {
     public void runDailyRoutine(SmartHomeSystem system) {
         for (ScheduledItem si : tasks) {
             if (si.when.toLocalTime().equals(LocalTime.MIDNIGHT)) {
-                si.scenario.execute(system);
+                try {
+                    si.scenario.execute(system);
+                } catch (Exception e) {
+                    system.logError("dailyRoutine error: " + e.toString());
+                }
             }
         }
     }

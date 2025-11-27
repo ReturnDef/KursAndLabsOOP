@@ -13,16 +13,21 @@ public class SmokeDetector extends AbstractDevice {
         smokeLevel = v;
         if (smokeLevel > 0.5) {
             System.out.println(name + ": обнаружен дым!");
+            alert("дым обнаружен");
         } else {
             System.out.println(name + ": уровень дыма " + smokeLevel);
         }
     }
 
     public void perform(String command) {
-        if (command.toLowerCase().contains("провер")) {
-            setSmokeLevel(Math.random());
-        } else {
-            System.out.println(name + ": неизвестная команда");
+        try {
+            if (command.toLowerCase().contains("провер")) {
+                setSmokeLevel(Math.random());
+            } else {
+                System.out.println(name + ": неизвестная команда");
+            }
+        } catch (Exception e) {
+            System.out.println(name + ": ошибка команды датчика дыма: " + e.getMessage());
         }
     }
 
