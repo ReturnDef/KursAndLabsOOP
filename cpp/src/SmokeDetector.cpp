@@ -4,6 +4,9 @@
 SmokeDetector::SmokeDetector(int id, const std::string &name, const std::string &location)
     : Device(id, name, location), smokeLevel(0.0) {}
 
+SmokeDetector::SmokeDetector(const SmokeDetector& other)
+    : Device(other), smokeLevel(other.smokeLevel) {}
+
 SmokeDetector::~SmokeDetector() {}
 
 void SmokeDetector::detectSmoke(double level) {

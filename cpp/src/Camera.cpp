@@ -2,7 +2,12 @@
 #include <cstdio>
 
 Camera::Camera(int id, const std::string &name, const std::string &location)
-    : Device(id, name, location), isRecording(false) {}
+    : Device(id, name, location), isRecording(false) {
+    std::printf("Camera '%s' создана (id=%d)\n", getName().c_str(), getId());
+}
+
+Camera::Camera(const Camera& other)
+    : Device(other), isRecording(other.isRecording) {}
 
 Camera::~Camera() {}
 

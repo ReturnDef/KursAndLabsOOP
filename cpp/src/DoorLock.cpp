@@ -2,7 +2,12 @@
 #include <cstdio>
 
 DoorLock::DoorLock(int id, const std::string &name, const std::string &location)
-    : Device(id, name, location), isLocked(true) {}
+    : Device(id, name, location), isLocked(true) {
+    std::printf("DoorLock '%s' инициализирован (id=%d)\n", getName().c_str(), getId());
+}
+
+DoorLock::DoorLock(const DoorLock& other)
+    : Device(other), isLocked(other.isLocked) {}
 
 DoorLock::~DoorLock() {}
 

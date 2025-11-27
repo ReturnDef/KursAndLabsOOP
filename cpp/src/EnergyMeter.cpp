@@ -2,7 +2,12 @@
 #include <cstdio>
 
 EnergyMeter::EnergyMeter(int id, const std::string &name, const std::string &location)
-    : Device(id, name, location), totalUsage(0.0) {}
+    : Device(id, name, location), totalUsage(0.0) {
+    std::printf("EnergyMeter '%s' создан (id=%d)\n", getName().c_str(), getId());
+}
+
+EnergyMeter::EnergyMeter(const EnergyMeter& other)
+    : Device(other), totalUsage(other.totalUsage) {}
 
 EnergyMeter::~EnergyMeter() {}
 

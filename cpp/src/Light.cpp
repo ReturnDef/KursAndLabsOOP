@@ -2,7 +2,12 @@
 #include <cstdio>
 
 Light::Light(int id, const std::string &name, const std::string &location)
-    : Device(id, name, location), brightness(0), color("white") {}
+    : Device(id, name, location), brightness(0), color("white") {
+    std::printf("Light '%s' создан (id=%d)\n", getName().c_str(), getId());
+}
+
+Light::Light(const Light& other)
+    : Device(other), brightness(other.brightness), color(other.color) {}
 
 Light::~Light() {}
 

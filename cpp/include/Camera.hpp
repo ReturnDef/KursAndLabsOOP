@@ -4,6 +4,7 @@
 class Camera : public Device {
 public:
     Camera(int id = 0, const std::string &name = "Camera", const std::string &location = "");
+    Camera(const Camera& other);
     ~Camera();
     void startRecording();
     void stopRecording();
@@ -13,4 +14,3 @@ public:
 private:
     bool isRecording;
 };
-
