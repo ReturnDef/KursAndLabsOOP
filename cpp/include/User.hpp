@@ -21,6 +21,7 @@ public:
 
     // id/name/role
     int getUserId() const;
+    void setUserId(int id);
     std::string getName() const;
     void setName(const std::string &n);
     std::string getRole() const;

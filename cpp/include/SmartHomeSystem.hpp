@@ -55,6 +55,9 @@ public:
 
 private:
     std::vector<std::shared_ptr<Device>> devices;
+    int nextDeviceId = 0;
+    int nextUserId = 0;
+    int nextScenarioId = 0;
     std::vector<std::shared_ptr<Scenario>> scenarios;
     std::vector<std::shared_ptr<User>> users;
     std::vector<std::shared_ptr<Notification>> notifications;

@@ -1,6 +1,8 @@
 #pragma once
 #include "Action.hpp"
 #include "Device.hpp"
+#include <memory>
+#include <functional>
 
 class DeviceAction : public Action {
 public:
@@ -12,6 +14,9 @@ public:
     void execute() override;
     std::shared_ptr<Action> clone() const override;
     void modifyForScenario(const std::string &scenarioName) override;
+
+    // 🔥 Геттер устройства (добавлено)
+    std::shared_ptr<Device> getDevice() const { return device; }
 
 private:
     std::shared_ptr<Device> device;

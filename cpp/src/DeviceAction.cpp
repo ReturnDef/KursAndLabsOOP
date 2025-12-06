@@ -1,6 +1,9 @@
 #include "DeviceAction.hpp"
+#include <iostream>
 
-DeviceAction::DeviceAction(const std::string& name, std::shared_ptr<Device> dev, Op op)
+DeviceAction::DeviceAction(const std::string& name,
+                           std::shared_ptr<Device> dev,
+                           Op op)
     : Action(name), device(dev), operation(op) {}
 
 DeviceAction::DeviceAction(const DeviceAction& other)
@@ -9,9 +12,10 @@ DeviceAction::DeviceAction(const DeviceAction& other)
 void DeviceAction::execute() {
     if (device && operation) {
         operation(device);
-        std::cout << "Действие устройства выполнено: " << name << std::endl;
+        std::cout << "[DeviceAction] executed: " << name << std::endl;
     } else {
-        std::cout << "Действие устройства не выполнено (нет устройства или операции): " << name << std::endl;
+        std::cout << "[DeviceAction] FAILED: " << name
+                  << " (no device or no operation)" << std::endl;
     }
 }
 
@@ -21,8 +25,8 @@ std::shared_ptr<Action> DeviceAction::clone() const {
 
 void DeviceAction::modifyForScenario(const std::string &scenarioName) {
     if (device && scenarioName.find("Weekend") != std::string::npos) {
-        double pu = device->getPowerUsage();
-        device->setPowerUsage(pu * 0.9);
-        device->notify("Действие выполнено");
+        double p = device->getPowerUsage();
+        device->setPowerUsage(p * 0.9);
+        device->notify("Сценарий изменил энергопотребление устройства");
     }
 }

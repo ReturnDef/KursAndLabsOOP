@@ -1,51 +1,35 @@
-#include <algorithm>
 #include "Scenario.hpp"
+#include "DeviceAction.hpp"
 
-Scenario::Scenario(const std::string &name): name(name), isActive(false) {}
+Scenario::Scenario(const std::string& name)
+    : name(name) {}
 
-Scenario::Scenario(const Scenario& other)
-    : name(other.name), actions(other.actions), triggers(other.triggers), isActive(other.isActive) {}
-
-void Scenario::addAction(std::shared_ptr<Action> a) {
-    if (a) {
-        actions.push_back(a);
-        std::cout << "Добавлено действие '" << a->getName() << "' в сценарий '" << name << "'" << std::endl;
-    }
+void Scenario::addAction(std::shared_ptr<Action> act) {
+    actions.push_back(act);
 }
 
-void Scenario::addTrigger(std::shared_ptr<Event> e) {
-    if (e) {
-        triggers.push_back(e);
-        std::cout << "Добавлен триггер '" << e->getInfo() << "' в сценарий '" << name << "'" << std::endl;
-    }
-}
-
+// совместимость со старой системой
 void Scenario::execute() {
-    std::cout << "Выполнение сценария: " << name << std::endl;
-    std::for_each(actions.begin(), actions.end(), [](const std::shared_ptr<Action>& a){ if (a) a->execute(); });
-isActive = true;
+    run();
 }
 
-std::string Scenario::getName() const { 
-    return name; 
-}
+void Scenario::run() {
+    std::cout << "\n=== Running Scenario: " << name << " (ID=" << id << ") ===\n";
 
-std::shared_ptr<Scenario> Scenario::cloneShallow() const {
-    return std::make_shared<Scenario>(*this);
-}
-
-std::shared_ptr<Scenario> Scenario::cloneDeep() const {
-    auto s = std::make_shared<Scenario>(name);
-    std::for_each(actions.begin(), actions.end(), [&s](const std::shared_ptr<Action>& a){ if (a) s->addAction(a->clone()); });
-
-    for (auto &e : triggers) {
-        if (e) s->addTrigger(std::make_shared<Event>(*e));
+    for (auto& act : actions) {
+        act->execute();
     }
-    s->isActive = isActive;
-    return s;
+
+    std::cout << "=== Scenario finished ===\n\n";
 }
 
-void Scenario::adaptTo(const std::string &newName) {
-    std::for_each(actions.begin(), actions.end(), [](const std::shared_ptr<Action>& a){ if (a) a->execute(); });
-name = newName;
+void Scenario::showActions() const {
+    std::cout << "\n--- Actions in Scenario '" << name << "' (ID=" << id << ") ---\n";
+
+    for (const auto& a : actions) {
+        std::cout << "* " << a->getName();
+        auto da = std::dynamic_pointer_cast<DeviceAction>(a);
+        if (da) std::cout << " (DeviceAction)";
+        std::cout << "\n";
+    }
 }
