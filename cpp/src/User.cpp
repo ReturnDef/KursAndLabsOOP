@@ -39,6 +39,8 @@ int User::getUserId() const {
     return userID; 
 }
 
+void User::setUserId(int id) { userID = id; }
+
 std::string User::getName() const { return name; }
 void User::setName(const std::string &n) { name = n; }
 std::string User::getRole() const { return role; }

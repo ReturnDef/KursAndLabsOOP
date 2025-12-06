@@ -6,6 +6,10 @@ SmartHomeSystem::~SmartHomeSystem() = default;
 
 void SmartHomeSystem::addDevice(std::shared_ptr<Device> d) {
     if (!d) return;
+    // assign id if not set
+    if (d->getId() == 0) {
+        d->setId(++nextDeviceId);
+    }
     // avoid duplicates by id
     auto it = std::find_if(devices.begin(), devices.end(), [&](const std::shared_ptr<Device>& x){
         return x && x->getId() == d->getId();
@@ -34,8 +38,9 @@ std::shared_ptr<Device> SmartHomeSystem::findDevice(int id) const {
 
 void SmartHomeSystem::addScenario(std::shared_ptr<Scenario> s) {
     if (!s) return;
+    if (s->getId() == 0) s->setId(++nextScenarioId);
     scenarios.push_back(s);
-    std::cout << "Добавлен сценарий: " << s->getName() << std::endl;
+    std::cout << "Добавлен сценарий: " << s->getName() << " (id=" << s->getId() << ")" << std::endl;
 }
 
 void SmartHomeSystem::addUser(std::shared_ptr<User> u) {
