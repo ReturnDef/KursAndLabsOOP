@@ -1,9 +1,8 @@
-#include "../include/DoorLock.hpp"
-#include <cstdio>
+#include "DoorLock.hpp"
 
 DoorLock::DoorLock(int id, const std::string &name, const std::string &location)
     : Device(id, name, location), isLocked(true) {
-    std::printf("DoorLock '%s' инициализирован (id=%d)\n", getName().c_str(), getId());
+    std::cout << "Дверной замок '" << getName() << "' инициализирован (id=" << getId() << ")" << std::endl;
 }
 
 DoorLock::DoorLock(const DoorLock& other)
@@ -13,18 +12,18 @@ DoorLock::~DoorLock() {}
 
 void DoorLock::lock() {
     isLocked = true;
-    std::printf("DoorLock::lock вызван для '%s'\n", getName().c_str());
+    std::cout << "Дверной замок '" << getName() << "' заблокирован" << std::endl;
 }
 
 void DoorLock::unlock() {
     isLocked = false;
-    std::printf("DoorLock::unlock вызван для '%s'\n", getName().c_str());
+    std::cout << "Дверной замок '" << getName() << "' разблокирован" << std::endl;
 }
 
 void DoorLock::alertIfForced() {
-    std::printf("DoorLock::alertIfForced для '%s' (демо)\n", getName().c_str());
+    std::cout << "Проверка взлома для '" << getName() << "' (демо)" << std::endl;
 }
 
 void DoorLock::showStatus() {
-    std::printf("DoorLock '%s' locked: %s\n", getName().c_str(), isLocked ? "ДА" : "НЕТ");
+    std::cout << "Дверной замок '" << getName() << "' заблокирован: " << (isLocked ? "ДА" : "НЕТ") << std::endl;
 }

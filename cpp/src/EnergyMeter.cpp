@@ -1,9 +1,8 @@
-#include "../include/EnergyMeter.hpp"
-#include <cstdio>
+#include "EnergyMeter.hpp"
 
 EnergyMeter::EnergyMeter(int id, const std::string &name, const std::string &location)
     : Device(id, name, location), totalUsage(0.0) {
-    std::printf("EnergyMeter '%s' создан (id=%d)\n", getName().c_str(), getId());
+    std::cout << "Энергосчетчик '" << getName() << "' создан (id=" << getId() << ")" << std::endl;
 }
 
 EnergyMeter::EnergyMeter(const EnergyMeter& other)
@@ -13,7 +12,7 @@ EnergyMeter::~EnergyMeter() {}
 
 void EnergyMeter::updateUsage(double amount) {
     totalUsage += amount;
-    std::printf("Счетчик '%s' обновил потребление на %.2f\n", getName().c_str(), amount);
+    std::cout << "Энергосчетчик '" << getName() << "' обновлен на " << amount << std::endl;
 }
 
 double EnergyMeter::getMonthlyReport() const {
@@ -21,5 +20,5 @@ double EnergyMeter::getMonthlyReport() const {
 }
 
 void EnergyMeter::showStatus() {
-    std::printf("EnergyMeter '%s' общий расход: %.2f\n", getName().c_str(), totalUsage);
+    std::cout << "Энергосчетчик '" << getName() << "' общее потребление: " << totalUsage << std::endl;
 }

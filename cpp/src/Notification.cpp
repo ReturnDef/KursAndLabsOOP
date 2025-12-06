@@ -1,17 +1,18 @@
-#include "../include/Notification.hpp"
-#include <cstdio>
+#include "Notification.hpp"
 
-Notification::Notification(const std::string &msg): message(msg), timestamp(std::time(nullptr)) {}
-Notification::Notification(const Notification& other): message(other.message), timestamp(other.timestamp) {}
+Notification::Notification(int deviceId, const std::string &msg): deviceId(deviceId), message(msg), timestamp(std::time(nullptr)) {}
+
+Notification::Notification(const std::string &msg): deviceId(-1), message(msg), timestamp(std::time(nullptr)) {}
+Notification::Notification(const Notification& other): deviceId(other.deviceId), message(other.message), timestamp(other.timestamp) {}
 
 void Notification::sendToDevice(int deviceId) {
-    std::printf("Уведомление для устройства %d: %s\n", deviceId, message.c_str());
+    std::cout << "Уведомление для устройства " << deviceId << ": " << message << std::endl;
 }
 
 void Notification::sendToAllUsers() {
-    std::printf("Рассылка всем пользователям: %s\n", message.c_str());
+    std::cout << "Широковещательное уведомление: " << message << std::endl;
 }
 
 void Notification::show() const {
-    std::printf("[Уведомление] %s (время: %ld)\n", message.c_str(), (long)timestamp);
+    std::cout << "[Уведомление] " << message << " (время: " << std::asctime(std::localtime(&timestamp)) << ")" << std::endl;
 }

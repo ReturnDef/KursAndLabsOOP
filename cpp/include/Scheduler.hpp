@@ -4,6 +4,7 @@
 
 class Scheduler {
 public:
+    Scheduler();
     void addTask(std::shared_ptr<Action> a);
     void removeTask(std::shared_ptr<Action> a);
     void runPending();

@@ -1,29 +1,45 @@
-#include "../include/User.hpp"
-#include <cstdio>
+#include "User.hpp"
 
 User::User(int id, const std::string &name): userID(id), name(name) {}
-
 User::User(const User& other): userID(other.userID), name(other.name), role(other.role), preferences(other.preferences) {}
 
 bool User::login(const std::string &username, const std::string &password) {
-    std::printf("Пользователь '%s' вошёл в систему (демо)\n", username.c_str());
+    std::cout << "Пользователь '" << username << "' вошел в систему (демо)" << std::endl;
     return true;
 }
 
 void User::logout() {
-    std::printf("Пользователь '%s' вышел\n", name.c_str());
+    std::cout << "Пользователь '" << name << "' вышел из системы" << std::endl;
 }
 
 void User::executeScenario(std::shared_ptr<Scenario> s) {
     if (s) {
-        std::printf("Пользователь '%s' запускает сценарий '%s'\n", name.c_str(), s->getName().c_str());
+        std::cout << "Пользователь '" << name << "' запускает сценарий '" << s->getName() << "'" << std::endl;
         s->execute();
     }
 }
 
 void User::setPreference(const std::string &k, const std::string &v) {
     preferences[k] = v;
-    std::printf("Установлена настройка '%s' = '%s' для пользователя '%s'\n", k.c_str(), v.c_str(), name.c_str());
+    std::cout << "Установлена настройка '" << k << "'='" << v << "' для пользователя '" << name << "'" << std::endl;
 }
 
-int User::getUserId() const { return userID; }
+std::string User::getPreference(const std::string &k, const std::string &defaultValue) const {
+    auto it = preferences.find(k);
+    if (it != preferences.end()) return it->second;
+    return defaultValue;
+}
+
+void User::resetPreferences() {
+    preferences.clear();
+    std::cout << "Все настройки пользователя '" << name << "' сброшены" << std::endl;
+}
+
+int User::getUserId() const { 
+    return userID; 
+}
+
+std::string User::getName() const { return name; }
+void User::setName(const std::string &n) { name = n; }
+std::string User::getRole() const { return role; }
+void User::setRole(const std::string &r) { role = r; }

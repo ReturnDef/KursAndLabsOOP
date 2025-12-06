@@ -1,13 +1,15 @@
 #pragma once
 #include "common.hpp"
-
+#include <functional>
+#include <vector>
+#include <type_traits>
 class Action;
 
 class Device {
 public:
     Device(int id = 0, const std::string &name = "", const std::string &location = "");
     Device(const Device& other);
-    virtual ~Device();
+    virtual ~Device() = default;
 
     virtual void turnOn();
     virtual void turnOff();
@@ -34,7 +36,29 @@ public:
     bool getState() const;
     void setState(bool state);
 
+    Device& operator=(const Device& other) = default;
+
+    virtual std::string getType() const { return "Device"; }
+
+    void notify(const std::string& msg) {
+        log(msg);
+    }
+
+
+public:
+    using DeviceCallback = std::function<void(const Device&)>;
+    void registerCallback(DeviceCallback cb);
+    void unregisterCallbacks();
+private:
+    std::vector<DeviceCallback> callbacks;
+public:
+    template<typename T>
+    requires std::is_arithmetic_v<T>
+    void scalePower(T factor);
+
 protected:
+    void log(const std::string &msg) const;
+
     int id;
     std::string name;
     std::string location;

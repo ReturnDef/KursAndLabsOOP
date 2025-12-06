@@ -1,5 +1,4 @@
-#include "../include/WindowBlind.hpp"
-#include <cstdio>
+#include "WindowBlind.hpp"
 
 WindowBlind::WindowBlind(int id, const std::string &name, const std::string &location)
     : Device(id, name, location), position(0) {}
@@ -11,19 +10,19 @@ WindowBlind::~WindowBlind() {}
 
 void WindowBlind::open() {
     position = 100;
-    std::printf("WindowBlind::open для '%s'\n", getName().c_str());
+    std::cout << "Жалюзи '" << getName() << "' открыты" << std::endl;
 }
 
 void WindowBlind::close() {
     position = 0;
-    std::printf("WindowBlind::close для '%s'\n", getName().c_str());
+    std::cout << "Жалюзи '" << getName() << "' закрыты" << std::endl;
 }
 
 void WindowBlind::setPosition(int p) {
     position = p;
-    std::printf("WindowBlind::setPosition для '%s' pos=%d\n", getName().c_str(), position);
+    std::cout << "Жалюзи '" << getName() << "' установлена позиция: " << position << std::endl;
 }
 
 void WindowBlind::showStatus() {
-    std::printf("WindowBlind '%s' position=%d\n", getName().c_str(), position);
+    std::cout << "Жалюзи '" << getName() << "' позиция=" << position << std::endl;
 }

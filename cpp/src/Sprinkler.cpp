@@ -1,5 +1,4 @@
-#include "../include/Sprinkler.hpp"
-#include <cstdio>
+#include "Sprinkler.hpp"
 
 Sprinkler::Sprinkler(int id, const std::string &name, const std::string &location)
     : Device(id, name, location), flowRate(0.0) {}
@@ -10,17 +9,17 @@ Sprinkler::Sprinkler(const Sprinkler& other)
 Sprinkler::~Sprinkler() {}
 
 void Sprinkler::turnOnSprinkler() {
-    std::printf("Sprinkler::turnOnSprinkler для '%s'\n", getName().c_str());
+    std::cout << "Спринклер '" << getName() << "' включен" << std::endl;
 }
 
 void Sprinkler::turnOffSprinkler() {
-    std::printf("Sprinkler::turnOffSprinkler для '%s'\n", getName().c_str());
+    std::cout << "Спринклер '" << getName() << "' выключен" << std::endl;
 }
 
 void Sprinkler::scheduleWatering(std::time_t when) {
-    std::printf("Sprinkler::scheduleWatering для '%s' на %ld (демо)\n", getName().c_str(), (long)when);
+    std::cout << "Спринклер '" << getName() << "' запланирован полив на " << when << " (демо)" << std::endl;
 }
 
 void Sprinkler::showStatus() {
-    std::printf("Sprinkler '%s' расход: %.2f\n", getName().c_str(), flowRate);
+    std::cout << "Спринклер '" << getName() << "' поток: " << flowRate << std::endl;
 }

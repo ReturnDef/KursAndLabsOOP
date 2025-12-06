@@ -11,6 +11,10 @@ public:
     void saveRecording();
     void showStatus() override;
 
+    Camera& operator=(const Device& base);
+
+    std::string getType() const override { return "Camera"; }
+
 private:
     bool isRecording;
 };

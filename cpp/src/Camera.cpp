@@ -1,9 +1,8 @@
-#include "../include/Camera.hpp"
-#include <cstdio>
+#include "Camera.hpp"
 
 Camera::Camera(int id, const std::string &name, const std::string &location)
     : Device(id, name, location), isRecording(false) {
-    std::printf("Camera '%s' создана (id=%d)\n", getName().c_str(), getId());
+    std::cout << "Камера '" << getName() << "' создана (id=" << getId() << ")" << std::endl;
 }
 
 Camera::Camera(const Camera& other)
@@ -13,18 +12,26 @@ Camera::~Camera() {}
 
 void Camera::startRecording() {
     isRecording = true;
-    std::printf("Camera::startRecording вызван для '%s'\n", getName().c_str());
+    log("Вызвана запись");
 }
 
 void Camera::stopRecording() {
     isRecording = false;
-    std::printf("Camera::stopRecording вызван для '%s'\n", getName().c_str());
+    log("Запись остановлена");
 }
 
 void Camera::saveRecording() {
-    std::printf("Camera::saveRecording вызван для '%s'\n", getName().c_str());
+    log("Запись сохранена");
 }
 
 void Camera::showStatus() {
-    std::printf("Camera '%s' recording: %s\n", getName().c_str(), isRecording ? "ДА" : "НЕТ");
+    std::cout << "Камера '" << getName() << "' запись: " << (isRecording ? "ДА" : "НЕТ") << std::endl;
+}
+
+Camera& Camera::operator=(const Device& base) {
+    if (this == &base) return *this;
+    this->Device::operator=(base);
+    this->isRecording = false;
+    log("Назначено из устройства");
+    return *this;
 }

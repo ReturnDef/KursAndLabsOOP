@@ -1,5 +1,4 @@
-#include "../include/LocationSensor.hpp"
-#include <cstdio>
+#include "LocationSensor.hpp"
 
 LocationSensor::LocationSensor(const std::string &loc): currentLocation(loc) {}
 
@@ -7,7 +6,7 @@ LocationSensor::LocationSensor(const LocationSensor& other): currentLocation(oth
 
 void LocationSensor::updateLocation(const std::string &loc) {
     currentLocation = loc;
-    std::printf("LocationSensor: местоположение обновлено на %s\n", loc.c_str());
+    std::cout << "Датчик местоположения: местоположение обновлено на " << loc << std::endl;
 }
 
 std::string LocationSensor::getCurrentLocation() const {

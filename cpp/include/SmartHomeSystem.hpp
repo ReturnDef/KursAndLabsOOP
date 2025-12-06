@@ -1,4 +1,11 @@
 #pragma once
+#include <type_traits>
+#include <vector>
+#include <memory>
+#include <string>
+#include <functional>
+#include <numeric>
+#include <algorithm>
 #include "common.hpp"
 #include "Device.hpp"
 #include "Scenario.hpp"
@@ -9,40 +16,51 @@
 
 class SmartHomeSystem {
 public:
+    using DeviceEvent = std::function<void(std::shared_ptr<Device>)>;
+
     SmartHomeSystem();
+    ~SmartHomeSystem();
+
+    // devices
     void addDevice(std::shared_ptr<Device> d);
-    void removeDevice(std::shared_ptr<Device> d);
-    std::shared_ptr<Device> findDeviceByName(const std::string &name);
-    void runDemo();
+    void removeDevice(int id);
+    std::shared_ptr<Device> findDevice(int id) const;
 
-    // новые методы для интерактива
-    void addAction(std::shared_ptr<Action> a);
-    std::shared_ptr<Action> findAction(const std::string &name) const;
-
+    // scenarios
     void addScenario(std::shared_ptr<Scenario> s);
-    std::shared_ptr<Scenario> findScenario(const std::string &name) const;
 
+    // users
     void addUser(std::shared_ptr<User> u);
+    void removeUser(int id);
     std::shared_ptr<User> findUser(int id) const;
+    std::vector<std::shared_ptr<User>> listUsers() const;
 
-    void showDevices() const;
-    void showScenarios() const;
-    void showActions() const;
-
-    void sendNotificationToDevice(int deviceId, const std::string &msg);
-    void sendNotificationToAll(const std::string &msg);
+    // notifications
     void showNotifications() const;
+    void sendNotificationToAll(const std::string& msg);
+    void sendNotificationToDevice(int id, const std::string& msg);
+    void clearNotifications();
 
-    // Геттеры для доступа к private членам
-    EnergyManager& getEnergyManager();
-    Scheduler& getScheduler();
+    // energy
+    EnergyManager& energy() { return energyManager; }
+    double getTotalEnergyConsumption() const { return energyManager.getEnergyReport(); }
+
+    // getters
+    std::vector<std::shared_ptr<Scenario>> getScenarios() const { return scenarios; }
+    std::vector<std::shared_ptr<Device>> getDevices() const { return devices; }
+
+    // callbacks
+    void onDeviceAdded(DeviceEvent cb) { deviceAddedCallbacks.push_back(cb); }
+    void onDeviceRemoved(DeviceEvent cb) { deviceRemovedCallbacks.push_back(cb); }
 
 private:
     std::vector<std::shared_ptr<Device>> devices;
     std::vector<std::shared_ptr<Scenario>> scenarios;
     std::vector<std::shared_ptr<User>> users;
-    std::vector<std::shared_ptr<Action>> actions;
     std::vector<std::shared_ptr<Notification>> notifications;
-    EnergyManager energyManager;
     Scheduler scheduler;
+    EnergyManager energyManager;
+
+    std::vector<DeviceEvent> deviceAddedCallbacks;
+    std::vector<DeviceEvent> deviceRemovedCallbacks;
 };

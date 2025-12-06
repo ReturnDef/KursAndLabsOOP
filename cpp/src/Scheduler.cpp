@@ -1,20 +1,21 @@
-#include "../include/Scheduler.hpp"
-#include <cstdio>
 #include <algorithm>
+#include "Scheduler.hpp"
+
+Scheduler::Scheduler() {}
 
 void Scheduler::addTask(std::shared_ptr<Action> a) {
     if (a) {
         tasks.push_back(a);
-        std::printf("Добавлено задание: %s\n", a->getName().c_str());
+        std::cout << "Добавлена задача: " << a->getName() << std::endl;
     }
 }
 
 void Scheduler::removeTask(std::shared_ptr<Action> a) {
     tasks.erase(std::remove(tasks.begin(), tasks.end(), a), tasks.end());
-    std::printf("Удалено задание: %s\n", a ? a->getName().c_str() : "(null)");
+    std::cout << "Задача удалена" << std::endl;
 }
 
 void Scheduler::runPending() {
-    std::printf("Выполнение запланированных задач (демо)\n");
-    for (auto a: tasks) if (a) a->execute();
+    std::cout << "Запуск запланированных задач (демо)" << std::endl;
+    std::for_each(tasks.begin(), tasks.end(), [](const std::shared_ptr<Action>& a){ if (a) a->execute(); });
 }
