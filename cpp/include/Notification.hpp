@@ -3,6 +3,7 @@
 
 class Notification {
 public:
+    Notification(int deviceId, const std::string &msg);
     Notification(const std::string &msg = "");
     Notification(const Notification& other);
     void sendToDevice(int deviceId);
@@ -10,6 +11,7 @@ public:
     void show() const;
 
 private:
+    int deviceId = -1;
     std::string message;
     std::time_t timestamp;
 };

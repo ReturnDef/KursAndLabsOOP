@@ -1,12 +1,12 @@
-#include "../include/Event.hpp"
-#include <cstdio>
+#include <algorithm>
+#include "Event.hpp"
 
 Event::Event(const std::string &desc): description(desc) {}
 Event::Event(const Event& other): description(other.description), actions(other.actions) {}
 
 void Event::trigger() {
-    std::printf("Событие triggered: %s\n", description.c_str());
-    for (auto a: actions) if (a) a->execute();
+    std::cout << "Событие запущено: " << description << std::endl;
+    std::for_each(actions.begin(), actions.end(), [](const std::shared_ptr<Action>& a){ if (a) a->execute(); });
 }
 
 std::string Event::getInfo() const {
@@ -15,5 +15,5 @@ std::string Event::getInfo() const {
 
 void Event::linkActions(const std::vector<std::shared_ptr<Action>>& act) {
     actions = act;
-    std::printf("Действия связаны с событием '%s' (кол-во: %zu)\n", description.c_str(), actions.size());
+    std::cout << "Действия связаны с событием '" << description << "' (количество: " << actions.size() << ")" << std::endl;
 }

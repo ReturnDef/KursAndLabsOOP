@@ -1,5 +1,4 @@
-#include "../include/Thermostat.hpp"
-#include <cstdio>
+#include "Thermostat.hpp"
 
 Thermostat::Thermostat(int id, const std::string &name, const std::string &location)
     : Device(id, name, location), targetTemp(20.0), mode(0) {}
@@ -11,18 +10,18 @@ Thermostat::~Thermostat() {}
 
 void Thermostat::setTargetTemp(double t) {
     targetTemp = t;
-    std::printf("Thermostat::setTargetTemp для '%s' t=%.1f\n", getName().c_str(), targetTemp);
+    std::cout << "Термостат '" << getName() << "' установлена температура: " << targetTemp << std::endl;
 }
 
 void Thermostat::setMode(int m) {
     mode = m;
-    std::printf("Thermostat::setMode для '%s' mode=%d\n", getName().c_str(), mode);
+    std::cout << "Термостат '" << getName() << "' установлен режим: " << mode << std::endl;
 }
 
 void Thermostat::autoAdjust() {
-    std::printf("Thermostat::autoAdjust для '%s' (демо)\n", getName().c_str());
+    std::cout << "Термостат '" << getName() << "' авторегулировка (демо)" << std::endl;
 }
 
 void Thermostat::showStatus() {
-    std::printf("Thermostat '%s' target=%.1f mode=%d\n", getName().c_str(), targetTemp, mode);
+    std::cout << "Термостат '" << getName() << "' целевая температура=" << targetTemp << " режим=" << mode << std::endl;
 }

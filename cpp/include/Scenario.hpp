@@ -13,6 +13,13 @@ public:
 
     std::string getName() const;
 
+    // cloning
+    std::shared_ptr<Scenario> cloneShallow() const;
+    std::shared_ptr<Scenario> cloneDeep() const;
+
+    // adapt scenario
+    void adaptTo(const std::string &newName);
+
 private:
     std::string name;
     std::vector<std::shared_ptr<Action>> actions;

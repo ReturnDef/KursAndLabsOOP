@@ -1,9 +1,8 @@
-#include "../include/Light.hpp"
-#include <cstdio>
+#include "Light.hpp"
 
 Light::Light(int id, const std::string &name, const std::string &location)
     : Device(id, name, location), brightness(0), color("white") {
-    std::printf("Light '%s' создан (id=%d)\n", getName().c_str(), getId());
+    std::cout << "Свет '" << getName() << "' создан (id=" << getId() << ")" << std::endl;
 }
 
 Light::Light(const Light& other)
@@ -13,18 +12,18 @@ Light::~Light() {}
 
 void Light::setBrightness(int b) {
     brightness = b;
-    std::printf("Light::setBrightness вызван для '%s', яркость=%d\n", getName().c_str(), brightness);
+    std::cout << "Свет '" << getName() << "' установлена яркость: " << brightness << std::endl;
 }
 
 void Light::setColor(const std::string &c) {
     color = c;
-    std::printf("Light::setColor вызван для '%s', цвет=%s\n", getName().c_str(), color.c_str());
+    std::cout << "Свет '" << getName() << "' установлен цвет: " << color << std::endl;
 }
 
 void Light::ecoMode() {
-    std::printf("Light::ecoMode вызван для '%s' (демо)\n", getName().c_str());
+    std::cout << "Свет '" << getName() << "' эко-режим (демо)" << std::endl;
 }
 
 void Light::showStatus() {
-    std::printf("Light '%s' в статусе: %s, яркость=%d\n", getName().c_str(), state ? "ВКЛ" : "ВЫКЛ", brightness);
+    std::cout << "Свет '" << getName() << "' статус: " << (state ? "ВКЛ" : "ВЫКЛ") << ", яркость=" << brightness << std::endl;
 }

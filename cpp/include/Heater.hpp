@@ -13,5 +13,5 @@ public:
 
 private:
     int temperature;
-    int mode; // changed to int
+    int mode;
 };
