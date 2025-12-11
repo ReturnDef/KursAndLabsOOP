@@ -7,6 +7,7 @@ public:
     Notification(const std::string &msg = "");
     Notification(const Notification& other);
     void sendToDevice(int deviceId);
+    std::string getMessage() const { return message; }
     void sendToAllUsers();
     void show() const;
 

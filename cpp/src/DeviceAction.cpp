@@ -1,3 +1,4 @@
+#include "NotificationCenter.hpp"
 #include "DeviceAction.hpp"
 #include <iostream>
 
@@ -13,6 +14,11 @@ void DeviceAction::execute() {
     if (device && operation) {
         operation(device);
         std::cout << "[DeviceAction] executed: " << name << std::endl;
+        // notify global notification center that a device action finished
+        if (device) {
+            Notification n(device->getId(), std::string("DeviceAction executed: ") + name);
+            NotificationCenter::instance().notify(n);
+        }
     } else {
         std::cout << "[DeviceAction] FAILED: " << name
                   << " (no device or no operation)" << std::endl;

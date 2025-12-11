@@ -19,7 +19,8 @@ void Device::turnOff() {
 }
 
 void Device::showStatus() {
-    std::cout << "Статус '" << name << "': " << (state ? "ВКЛ" : "ВЫКЛ") << ", местоположение=" << location << std::endl;
+    std::cout << "Статус '" << name << "': " << (state ? "ВКЛ" : "ВЫКЛ")
+              << ", местоположение=" << location << std::endl;
 }
 
 void Device::performAction(std::shared_ptr<Action> /*action*/) {
@@ -89,13 +90,7 @@ void Device::log(const std::string &msg) const {
 void Device::registerCallback(DeviceCallback cb) {
     callbacks.push_back(cb);
 }
+
 void Device::unregisterCallbacks() {
     callbacks.clear();
-}
-
-
-template<typename T>
-requires std::is_arithmetic_v<T>
-void Device::scalePower(T factor) {
-    powerUsage *= static_cast<double>(factor);
 }

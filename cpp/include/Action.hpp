@@ -18,6 +18,9 @@ public:
 
     virtual std::shared_ptr<Action> clone() const = 0;
 
+    // Описание действия для отображения в UI/сценариях
+    virtual std::string getDescription() const { return name; }
+
     virtual void modifyForScenario(const std::string &scenarioName) = 0;
 
 protected:

@@ -44,17 +44,20 @@ public:
         log(msg);
     }
 
-
 public:
     using DeviceCallback = std::function<void(const Device&)>;
     void registerCallback(DeviceCallback cb);
     void unregisterCallbacks();
+
 private:
     std::vector<DeviceCallback> callbacks;
+
 public:
     template<typename T>
     requires std::is_arithmetic_v<T>
-    void scalePower(T factor);
+    void scalePower(T factor) {
+        powerUsage *= static_cast<double>(factor);
+    }
 
 protected:
     void log(const std::string &msg) const;
