@@ -19,7 +19,6 @@
 #include "DoorLock.hpp"
 #include "SmokeDetector.hpp"
 
-
 // ==================== Вспомогательные функции ====================
 
 static void clearInput() {
@@ -54,18 +53,19 @@ void usersMenu(SmartHomeSystem &sys) {
         std::cout << "2. Удалить пользователя\n";
         std::cout << "3. Просмотреть всех пользователей\n";
         std::cout << "4. Настройки пользователя\n";
-        std::cout << "0. Назад\n";
-        std::cout << "Выбор: ";
+        std::cout << "0. Назад\nВыбор: ";
 
         int c = readInt();
         if (c == 0) break;
 
         if (c == 1) {
+            std::cout << "ID: ";
             int id = readInt();
             std::string name = readLinePrompt("Имя: ");
             sys.addUser(std::make_shared<User>(id, name));
 
         } else if (c == 2) {
+            std::cout << "ID: ";
             int id = readInt();
             sys.removeUser(id);
 
@@ -74,13 +74,14 @@ void usersMenu(SmartHomeSystem &sys) {
             std::cout << "Список пользователей:\n";
             for (auto &u : users) {
                 if (u) {
-                    std::cout << " - id=" << u->getUserId()
+                    std::cout << " - id=" << u->getId()
                               << " name='" << u->getName()
                               << "' role='" << u->getRole() << "'\n";
                 }
             }
 
         } else if (c == 4) {
+            std::cout << "ID: ";
             int id = readInt();
             auto u = sys.findUser(id);
             if (!u) {
@@ -153,6 +154,7 @@ void devicesMenu(SmartHomeSystem &sys) {
             int t = readInt();
             if (t == 0) continue;
 
+            std::cout << "ID: ";
             int id = readInt();
             std::string name = readLinePrompt("Имя: ");
             std::string location = readLinePrompt("Локация: ");
@@ -192,9 +194,8 @@ void devicesMenu(SmartHomeSystem &sys) {
             }
 
         } else if (c == 3) {
-            int id;
             std::cout << "id счётчика: ";
-            id = readInt();
+            int id = readInt();
 
             double val;
             std::cout << "Количество: ";
@@ -217,9 +218,10 @@ void devicesMenu(SmartHomeSystem &sys) {
             std::cout << "Показания добавлены.\n";
 
         } else if (c == 4) {
+            std::cout << "ID устройства: ";
             int id = readInt();
-            auto dev = sys.findDevice(id);
 
+            auto dev = sys.findDevice(id);
             if (!dev) {
                 std::cout << "Устройство не найдено\n";
                 continue;
@@ -269,33 +271,48 @@ void energyMenu(SmartHomeSystem &sys) {
 void scenariosMenu(SmartHomeSystem &sys) {
     while (true) {
         std::cout << "\n--- Сценарии ---\n";
-        std::cout << "1. Добавить сценарий\n";
-        std::cout << "2. Список сценариев\n";
-        std::cout << "3. Запустить\n";
-        std::cout << "0. Назад\nВыбор: ";
+        std::cout << "1. Список сценариев\n";
+        std::cout << "2. Запустить сценарий\n";
+        std::cout << "0. Назад\nВыберите номер команды: ";
 
         int c = readInt();
         if (c == 0) break;
 
+        auto scs = sys.getScenarios();
+
         if (c == 1) {
-            std::string name = readLinePrompt("Имя: ");
-            sys.addScenario(std::make_shared<Scenario>(name));
-
-        } else if (c == 2) {
-            auto scs = sys.getScenarios();
-            for (size_t i = 0; i < scs.size(); ++i)
-                std::cout << i << ". " << scs[i]->getName() << "\n";
-
-        } else if (c == 3) {
-            int idx = readInt();
-            auto scs = sys.getScenarios();
-
-            if (idx < 0 || idx >= (int)scs.size()) {
-                std::cout << "Неверный индекс\n";
+            if (scs.empty()) {
+                std::cout << "\nСценариев пока нет.\n";
                 continue;
             }
 
+            std::cout << "\nДоступные сценарии:\n";
+            for (size_t i = 0; i < scs.size(); ++i) {
+                std::cout << (i+1) << ". " << scs[i]->getName();
+                if (!scs[i]->getDescription().empty())
+                    std::cout << " — " << scs[i]->getDescription();
+                std::cout << "\n";
+            }
+
+        } else if (c == 2) {
+            if (scs.empty()) {
+                std::cout << "\nНет доступных сценариев.\n";
+                continue;
+            }
+
+            std::cout << "\nВведите номер сценария: ";
+            int idx = readInt() - 1;
+
+            if (idx < 0 || idx >= (int)scs.size()) {
+                std::cout << "Ошибка: сценария с таким номером нет.\n";
+                continue;
+            }
+
+            std::cout << "\n▶ Запуск сценария: " << scs[idx]->getName() << "\n";
             scs[idx]->execute();
+
+        } else {
+            std::cout << "Неизвестная команда.\n";
         }
     }
 }
@@ -344,6 +361,13 @@ void tempHistoryMenu(TemperatureHistory &hist) {
 
 int main() {
     SmartHomeSystem sys;
+    sys.createDefaultScenarios();
+    sys.getEnergyManager().setThreshold(100.0);
+
+    NotificationCenter::instance().subscribe([](const Notification& n) {
+        std::cout << "[NOTIF] " << n.getMessage() << std::endl;
+    });
+
     LogManager log;
     TemperatureHistory tempHistory;
 
@@ -356,10 +380,9 @@ int main() {
         std::cout << "3. Уведомления\n";
         std::cout << "4. Энергопотребление\n";
         std::cout << "5. Пользователи\n";
-        std::cout << "7. Журнал событий\n";
-        std::cout << "8. История температур\n";
-        std::cout << "0. Выход\n";
-        std::cout << "Выбор: ";
+        std::cout << "6. Журнал событий\n";
+        std::cout << "7. История температур\n";
+        std::cout << "0. Выход\nВыбор: ";
 
         int c = readInt();
         if (c == 0) break;
@@ -369,8 +392,8 @@ int main() {
         else if (c == 3) notificationsMenu(sys);
         else if (c == 4) energyMenu(sys);
         else if (c == 5) usersMenu(sys);
-        else if (c == 7) logMenu(log);
-        else if (c == 8) tempHistoryMenu(tempHistory);
+        else if (c == 6) logMenu(log);
+        else if (c == 7) tempHistoryMenu(tempHistory);
         else std::cout << "Неверный выбор\n";
     }
 

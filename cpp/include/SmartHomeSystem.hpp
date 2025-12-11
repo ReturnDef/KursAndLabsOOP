@@ -30,6 +30,13 @@ public:
     void addScenario(std::shared_ptr<Scenario> s);
 
     // users
+
+    // access to energy manager for configuration
+    EnergyManager& getEnergyManager() { return energyManager; }
+
+    // register built-in scenarios (programmatically defined)
+    void createDefaultScenarios();
+
     void addUser(std::shared_ptr<User> u);
     void removeUser(int id);
     std::shared_ptr<User> findUser(int id) const;

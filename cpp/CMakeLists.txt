@@ -13,3 +13,11 @@ add_executable(smarthome ${SOURCES})
 
 # install headers (optional)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include)
+
+# Added recommended compiler warning flags
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+# To enable clang-tidy, set CMAKE_CXX_CLANG_TIDY: e.g.
+# cmake -DCMAKE_CXX_CLANG_TIDY=clang-tidy ..

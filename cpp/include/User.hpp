@@ -20,8 +20,8 @@ public:
     void resetPreferences();
 
     // id/name/role
-    int getUserId() const;
-    void setUserId(int id);
+    int getId() const;
+    void setId(int id);
     std::string getName() const;
     void setName(const std::string &n);
     std::string getRole() const;

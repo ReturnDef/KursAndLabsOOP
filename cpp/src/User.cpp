@@ -35,11 +35,11 @@ void User::resetPreferences() {
     std::cout << "Все настройки пользователя '" << name << "' сброшены" << std::endl;
 }
 
-int User::getUserId() const { 
+int User::getId() const { 
     return userID; 
 }
 
-void User::setUserId(int id) { userID = id; }
+void User::setId(int id) { userID = id; }
 
 std::string User::getName() const { return name; }
 void User::setName(const std::string &n) { name = n; }

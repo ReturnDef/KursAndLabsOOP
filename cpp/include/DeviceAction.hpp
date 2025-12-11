@@ -18,6 +18,11 @@ public:
     // 🔥 Геттер устройства (добавлено)
     std::shared_ptr<Device> getDevice() const { return device; }
 
+    std::string getDescription() const override { 
+        if (device) return std::string("Устройство \"") + device->getName() + "\": " + name; 
+        return name; 
+    }
+
 private:
     std::shared_ptr<Device> device;
     Op operation;
